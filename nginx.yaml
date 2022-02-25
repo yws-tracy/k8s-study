@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx
+  name: nginx-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      nodeSelector:      # node节点选择器
+        role: master     # node节点标签(Label)
+      hostNetwork: true  # 使用node节点网络
+      containers:
+        - image: nginx
+          imagePullPolicy: IfNotPresent
+          name: nginx
+          ports:
+            - containerPort: 6060
